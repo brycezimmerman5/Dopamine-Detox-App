@@ -1,0 +1,50 @@
+---
+description: Product vision and architecture for Dopamine Detox app
+alwaysApply: true
+---
+
+# Dopamine Detox — Product Rule
+
+You are building a mobile app that helps users quit addictions via real-time urge intervention.
+This is NOT a habit tracker. Focus: urges, triggers, replacement behaviors.
+
+## Tech Stack
+
+- **Frontend:** React, Vite, TypeScript, Tailwind CSS (web app)
+- **Backend:** Supabase (auth, database)
+- **State:** Zustand
+- **Routing:** React Router
+
+## Core Screens Flow
+
+Onboarding → Home → Urge Screen (timer → result → trigger) → Home. Home → Analytics.
+
+## Supabase Schema (Key Tables)
+
+- **profiles** — user_id, addictions[], replacement_activities[], future_self_message, created_at
+- **urge_sessions** — user_id, addiction_type, started_at, duration_sec, beat_urge (bool), trigger, intensity (1-10)
+- **dopamine_actions** — user_id, action_type (positive/negative), category, created_at
+- **streaks** — user_id, addiction_type, current_streak, longest_streak, last_relapse_at
+
+## MVP Features (Build Order)
+
+1. **Onboarding** — Addictions, replacements, future self message. Store in Supabase.
+2. **Home Dashboard** — Streak, dopamine score, urges defeated today, Urge Button.
+3. **Urge Screen** — Big "I HAVE AN URGE" button → 90s timer, breathing animation, future self message, replacement list → "Did you beat it?" Yes/No.
+4. **Trigger + Intensity** — After urge: "What triggered this?" + 1-10 intensity. Save to urge_sessions.
+5. **Dopamine Score** — Log positive/negative actions. Daily score + chart.
+6. **Analytics** — Streak history, urges/day, trigger breakdown, dopamine trend.
+
+## Design Requirements
+
+- Dark mode first, minimal, iOS-quality polish
+- Big typography, smooth animations, motivational tone
+- Accessible: focus states, semantic HTML
+- Offline: Urge flow queues to localStorage when offline, syncs to Supabase when online.
+- **Quittr-inspired:** Supportive, science-based tone (e.g. "neuroscience-backed," "90-second rule"). Optional growth visual (Recovery Tree / Dopamine Garden) that evolves with streak + urges beaten. Consider 90-day journey framing and optional well-being dimensions later.
+
+## Critical Behaviors
+
+- **90-second timer:** Science-based (Jill Bolte Taylor). No skipping.
+- **Relapse framing:** "Reset, not failure." Always allow logging with context.
+- **Future self:** Show user's onboarding message during urge timer.
